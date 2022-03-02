@@ -3,8 +3,14 @@ const app = express();
 const cors = require("cors");
 const auth = require('./settings/login.json');
 const axios = require("axios");
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true;
+var fp = require("find-free-port");
+var os = require('os');
+var networkInterfaces = os.networkInterfaces();
+var firstNetworkConnection = Object.keys(networkInterfaces)[0];
+
 const port = process.env.PORT || 5000;
+
 app.use(express.static('assets'));
 app.use(cors());
 
@@ -59,6 +65,14 @@ app.get("/users/list", (req, res) => {
   });
 });
 
-app.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
+fp(8080, 9000, function(err, freePort) {
+
+  var PORT = freePort;
+
+  app.listen(PORT, () => {
+    console.log('Server available on http://localhost:' + PORT);
+    console.log(networkInterfaces[firstNetworkConnection][1].address + ':' + PORT);
+  });
+
 });
+
