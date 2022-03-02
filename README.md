@@ -1,0 +1,1 @@
+# Adapt-API-accessor
