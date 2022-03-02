@@ -1,0 +1,23 @@
+.panel-title {
+  padding-top: 0.5em;
+}
+
+#inputSearch {
+  width: 300px;
+}
+
+.sortorder:after {
+  content: '\25b2';
+}
+
+.sortorder.reverse:after {
+  content: '\25bc';
+}
+
+.form-add-user {
+  padding: 10px;
+}
+
+.hidden {
+  display: none;
+}

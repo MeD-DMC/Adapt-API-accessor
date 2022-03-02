@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>List of all users</title>
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="wrapper">
+  <div class="container" ng-controller="UserController as mc">
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="text-center">List of all users - Adapt Authoring Tool</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <!-- Default panel contents -->
+          <div class="panel-heading">
+            <h4 class="panel-title pull-left">User List</h4>
+            <div class="input-group">
+              <input id="inputSearch" ng-model="searchKeyword" type="text" class="form-control pull-right" placeholder="Search">
+              <div class="input-group-btn">
+                <button class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="table-responsive">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th colspan="4">Sort by = {{mc.propertyName}}; reverse = {{mc.reverse}}</th>
+                </tr>
+                <tr>
+                  <th>
+                    <a href="#" ng-click="mc.sortBy('title')">Name</a>
+                    <span class="sortorder" ng-show="mc.propertyName === 'name'" ng-class="{reverse: mc.reverse}"></span>
+                  </th>
+                  <th>
+                    <a href="#" ng-click="mc.sortBy('_id')">ID</a>
+                    <span class="sortorder" ng-show="mc.propertyName === '_id'" ng-class="{reverse: mc.reverse}"></span>
+                  </th>
+                  <th>
+                    <a href="#" ng-click="mc.sortBy('email')">Email</a>
+                    <span class="sortorder" ng-show="mc.propertyName === 'email'" ng-class="{reverse: mc.reverse}"></span>
+                  </th>
+                  <th>
+                    <a href="#" ng-click="mc.sortBy('lastAccess')">Last visit</a>
+                    <span class="sortorder" ng-show="mc.propertyName === 'lastAccess'" ng-class="{reverse: mc.reverse}"></span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="user in mc.userList | filter: searchKeyword">
+                  <td>{{ user.firstName }} {{ user.lastName }}</td>
+                  <td>{{ user._id }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.lastAccess }}</td>
+                  <td><button ng-click="openEditor(this.user._id);">Editor</button></td>
+                </tr>
+                <tr id="loading" class="hidden">
+                  <td><strong style="color: #474747;;">Fetching users</strong><img style="width: 20px; margin-left: 5px;" src="https://www.amigosmabeplus.com/images/cargado.gif"></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+            <!--/table-->
+          </div>
+          <!--/table-responsive-->
+        </div>
+        <!--/panel-->
+      </div>
+    </div>
+  </div>
+  <!--/container-->
+</div>
+<!--/wrapper-->
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.min.js'></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script  src="./script.js"></script>
+</body>
+</html>
