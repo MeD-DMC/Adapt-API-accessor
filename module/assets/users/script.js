@@ -35,7 +35,16 @@
                 vm.userList = response.data;
                 $('#loading').addClass('hidden');
             }, function errorCallback(response) {
+                $('#loading').addClass('hidden');
+                $('#error').removeClass('hidden');
                 console.log(response);
+                if(response.statusText === 'Unauthorized'){
+                    $('#error td')[0].append(document.createTextNode('The request cannot be authorized, make sure you have valid credentials in module/settings/login.json'));
+                    console.error('The request cannot be authorized, make sure you have valid credentials in module/settings/login.json');
+                } else {
+                    $('#error td')[0].append(document.createTextNode(response.statusText));
+                    console.error(response.statusText);
+                }
             });
             vm.propertyName = '_id';
             vm.reverse = true;

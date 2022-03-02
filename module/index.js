@@ -61,7 +61,11 @@ app.get("/users/list", (req, res) => {
         })
   })
   .catch(function (error) {
-    console.log(error);
+    var status = error.response.statusText;
+    if(status === 'Unauthorized'){
+      console.log('The request cannot be authorized, make sure you have valid credentials in module/settings/login.json')
+    }
+    res.status(401).send(error);
   });
 });
 
