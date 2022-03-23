@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "bin": "bin.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pack-exec": "call node_modules/.bin/pkg.cmd package.json && echo Executable: adapt-api-accessor.exe created in root folder."
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +15,15 @@
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "find-free-port": "^2.0.0",
+    "pkg": "^5.5.2",
     "prompt": "^1.2.2"
+  },
+  "pkg": {
+    "scripts": "*.js",
+    "assets": "**",
+    "targets": [
+      "win"
+    ],
+    "outputPath": "../"
   }
 }

@@ -7,16 +7,17 @@ var fp = require("find-free-port");
 var os = require('os');
 var networkInterfaces = os.networkInterfaces();
 var firstNetworkConnection = Object.keys(networkInterfaces)[0];
-
+var path = require('path');
 var prompt = require('prompt');
-
 const fs = require('fs')
+const settings_path = path.join(__dirname, '/settings/login.json');
 
-const path = __dirname + '/settings/login.json'
+var freePort;
 
-
-  if (fs.existsSync(path)) {
-    deploy();
+fp(8080, 9000, function(err, port) {
+    freePort = port;
+  if (fs.existsSync(settings_path)) {
+    deploy(freePort);
   } else {
     console.log('This is your first time running the tool! Plese input valid Adapt credentials in order to create the settings file.')
     prompt.message = 'Adapt';
@@ -27,25 +28,25 @@ const path = __dirname + '/settings/login.json'
         password: result.password
       }
       fs.writeFileSync(__dirname + '/settings/login.json', JSON.stringify(json));
-      deploy();
+      deploy(freePort);
     });
   }
+})
 
 
 
-function deploy(){
-
+function deploy(PORT){
   const auth = require('./settings/login.json');
 
-  app.use(express.static('assets'));
+  app.use(express.static(path.join(__dirname, "assets")));
   app.use(cors());
 
   app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/assets/index.html");
+    res.sendFile(path.join(__dirname, "assets/index.html"));
   });
 
   app.get("/courses", (req, res) => {
-      res.sendFile(__dirname + "/assets/courses/index.html");
+      res.sendFile(path.join(__dirname, "/assets/courses/index.html"));
   });
 
   app.get("/courses/list", (req, res) => {
@@ -71,7 +72,7 @@ function deploy(){
   });
 
   app.get("/users", (req, res) => {
-    res.sendFile(__dirname + "/assets/users/index.html");
+    res.sendFile(path.join(__dirname, "/assets/users/index.html"));
   });
 
   app.get("/users/list", (req, res) => {
@@ -95,15 +96,12 @@ function deploy(){
     });
   });
 
-  fp(8080, 9000, function(err, freePort) {
-
-    var PORT = freePort;
 
     app.listen(PORT, () => {
       console.log('Server available on http://localhost:' + PORT);
       console.log(networkInterfaces[firstNetworkConnection][1].address + ':' + PORT);
     });
+  }
 
-  });
-}
  
+module.exports = deploy;
