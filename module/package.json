@@ -6,7 +6,7 @@
   "bin": "bin.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pack-exec": "call node_modules/.bin/pkg.cmd package.json && echo Executable: adapt-api-accessor.exe created in root folder."
+    "pack-exec": "cls & echo Before you build the executable, make sure you have valid credentials in settings/login.json and that you can activate the server! & pause & echo Packing module using PKG.. this can take several minutes. & call node_modules/.bin/pkg.cmd package.json && echo Executable: adapt-api-accessor.exe created in root folder."
   },
   "author": "",
   "license": "ISC",
